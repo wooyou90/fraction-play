@@ -121,6 +121,49 @@ nav button.on{color:var(--acc)}
 .blk:active{transform:scale(.9)}
 .blk.gone{visibility:hidden}
 .flying{position:fixed;z-index:50;border-radius:10px;pointer-events:none}
+.simp{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0 4px;font-size:34px}
+.badge{display:inline-block;border-radius:999px;padding:1px 10px;font-size:14px;color:#fff;background:var(--acc);margin-left:8px;vertical-align:middle}
+.badge.hard{background:#8e24aa}
+/* cut game */
+.cutwrap{display:flex;align-items:center;justify-content:center;gap:34px;flex:1;flex-wrap:wrap;--pzs:min(44vw,54vh)}
+.cutwrap .pz{touch-action:none;cursor:pointer}
+.cutside{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:230px}
+.cutinfo{font-size:24px;background:#fff;border-radius:18px;padding:12px 22px;box-shadow:var(--sh);text-align:center;line-height:1.5}
+.cutgoal{font-size:22px;color:var(--sub);display:flex;align-items:center;gap:8px}
+/* compare */
+.cmpwrap{display:flex;justify-content:center;align-items:stretch;gap:18px;flex:1;flex-wrap:wrap;--pzs:min(18vw,30vh)}
+.cmp{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:14px 22px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:4px solid transparent;position:relative;min-width:180px}
+.cmp:active{transform:translateY(4px);box-shadow:none}
+.cmp.pick{border-color:var(--ok);background:#f1f8e9}
+.cmp .rank{position:absolute;top:-14px;left:-10px;background:var(--acc);color:#fff;border-radius:999px;padding:4px 14px;font-size:20px}
+.cmp .nolab{font-size:48px}
+/* number line */
+.nl{position:relative;height:150px;margin:10px 20px 0}
+.nl svg{width:100%;height:100%;overflow:visible}
+.frog{position:absolute;bottom:62px;font-size:54px;transform:translateX(-50%);transition:left .35s cubic-bezier(.3,1.4,.5,1);line-height:1}
+.frog.hop{animation:hop .35s ease}
+@keyframes hop{50%{transform:translate(-50%,-40px)}}
+.fly{position:absolute;bottom:118px;font-size:36px;transform:translateX(-50%)}
+.chips{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.chip{background:#fff;border-radius:999px;padding:8px 22px;box-shadow:var(--sh);font-size:24px;border:4px solid transparent;display:flex;align-items:center;gap:6px}
+.chip.on{border-color:var(--acc);background:#fff3dc}
+.chip.off{opacity:.35}
+/* share game */
+.bars{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;min-height:60px}
+.bar{display:flex;gap:3px;background:#5d4037;padding:5px;border-radius:12px;width:min(300px,40vw);height:56px;box-shadow:0 5px 0 #3e2723}
+.bar:active{transform:scale(.96)}
+.bar i{flex:1;border-radius:6px;background:var(--col);box-shadow:inset 0 -4px 0 rgba(0,0,0,.18)}
+.friend{background:#fff;border-radius:18px;padding:10px 18px;box-shadow:var(--sh);display:flex;align-items:center;gap:14px;font-size:24px}
+.friend .slots{display:flex;gap:4px}
+.friend .slot{width:30px;height:44px;border-radius:7px;background:#eadbc0}
+.friend .slot.f{background:var(--col)}
+/* detective */
+.detcase{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:20px 30px;display:flex;flex-direction:column;align-items:center;gap:16px;margin:0 auto;max-width:760px}
+.detcase .eqline{font-size:42px}
+.detcase .eqline .frac{font-size:40px}
+.judge{display:flex;gap:18px}
+.judge .btn.no{background:var(--bad);box-shadow:0 6px 0 #b71c1c}
+.judge .btn.yes{background:var(--ok);box-shadow:0 6px 0 #2e7d32}
 /* answer */
 .anscard{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:30px;background:#fff;border-radius:var(--r);padding:12px 22px;box-shadow:var(--sh);flex-wrap:wrap}
 .box{display:inline-flex;align-items:center;justify-content:center;min-width:60px;height:60px;padding:0 10px;border:3px dashed #c9a86a;border-radius:14px;background:#fffaf0;font-size:34px}
@@ -239,7 +282,7 @@ function mascot(face='idle',size=92){return `<div class="mas ${face}" style="wid
 function pz(o){const r=44,c=50,d=o.d;const pt=t=>{const a=t*2*Math.PI;return[c+r*Math.sin(a),c-r*Math.cos(a)];};
  const wedge=(t0,t1,fill)=>{if(t1-t0>=1-1e-9)return`<circle cx="${c}" cy="${c}" r="${r}" fill="${fill}"/>`;const[x0,y0]=pt(t0),[x1,y1]=pt(t1);const big=(t1-t0)>0.5?1:0;return`<path d="M${c} ${c} L${x0.toFixed(2)} ${y0.toFixed(2)} A${r} ${r} 0 ${big} 1 ${x1.toFixed(2)} ${y1.toFixed(2)} Z" fill="${fill}"/>`;};
  const lines=(k,st)=>{let z='';if(k<2)return z;for(let i=0;i<k;i++){const[x,y]=pt(i/k);z+=`<line x1="${c}" y1="${c}" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}" ${st}/>`;}return z;};
- let s=`<svg viewBox="0 0 100 100" class="pz ${o.cls||''}">`;
+ let s=`<svg viewBox="0 0 100 100" class="pz ${o.cls||''}" ${o.size?`style="width:${o.size}px"`:''}>`;
  s+=`<circle cx="${c}" cy="${c}" r="${r}" fill="${o.shadow?'#d6cfc4':o.empty?'#fffaf0':'#fde9bd'}" stroke="${o.empty?'#c9a86a':'#c99a4e'}" stroke-width="2.5" ${o.empty?'stroke-dasharray="4 3"':''}/>`;
  let t=0;for(const[n,col]of(o.parts||[])){if(n<=0)continue;const t1=t+n/d;s+=wedge(t,t1,col);t=t1;}
  if(!o.empty){s+=lines(d,`stroke="#8d5a1e" stroke-width="${o.cuts?'1':'1.6'}" stroke-opacity="${o.cuts?'.45':'.8'}"`);}
@@ -255,7 +298,7 @@ $('#quitBtn').onclick=()=>{snd.tap();G=null;show('home');};
 
 function renderHome(){checkDay();const g=S.set.goal,n=S.today.rounds;
  $('#hero').innerHTML=`${mascot('idle')}<div><h1>${S.set.name}아, 오늘은 어떤 놀이?</h1><p>오늘 ${Math.min(n,g)} / ${g} 판 <span class="dotsday">${Array.from({length:g},(_,i)=>`<i class="${i<n?'f':''}"></i>`).join('')}</span>${n>=g?' 🎉 오늘 목표 달성!':''}</p></div>`;
- $('#cards').innerHTML=GAMES.map(g=>`<button class="card" data-g="${g.id}"><div class="em">${g.emoji}</div><div><h3>${g.title}</h3><p>${g.desc}</p><div class="best">${S.best[g.id]?'최고 ⭐ '+S.best[g.id]+' / 15':'아직 안 해봤어요'}</div></div></button>`).join('');
+ $('#cards').innerHTML=GAMES.map(g=>`<button class="card" data-g="${g.id}"><div class="em">${g.emoji}</div><div><h3>${g.title}${HARD.has(g.id)?'<span class="badge hard">어려움</span>':NEWG.has(g.id)&&!S.best[g.id]?'<span class="badge">NEW</span>':''}</h3><p>${g.desc}</p><div class="best">${S.best[g.id]?'최고 ⭐ '+S.best[g.id]+' / 15':'아직 안 해봤어요'}</div></div></button>`).join('');
  $$('.card').forEach(c=>c.onclick=()=>{snd.tap();startGame(c.dataset.g);});}
 
 /* ---------- game loop ---------- */
@@ -342,7 +385,7 @@ const ADD={id:'add',emoji:'🍕',title:'조각 맞추기',desc:'크기가 다른
   async function merge(){snd.pop();const n1=D*a/b,n2=D*c/d,sum=n1+n2;$('#dial',el).innerHTML='';
    const R=$('#pR',el);R.innerHTML=pz({d:D,parts:[[n1,COL[0]],[n2,COL[1]]]})+`<div class="lab" id="lR"></div>`;R.classList.add('pop');
    let stars=Math.max(1,base-wrong);
-   const finish=()=>{$('#lR',el).innerHTML=frac(sum,D,'big');const g=gcd(sum,D);let extra='';if(sum===D)extra='<br>피자 한 판이 꽉 찼어요! = 1';else if(g>1)extra=`<br>더 간단히 쓰면 ${frac(sum/g,D/g)}`;
+   const finish=()=>{$('#lR',el).innerHTML=frac(sum,D,'big');const g=gcd(sum,D);let extra='';if(sum===D)extra='<br>피자 한 판이 꽉 찼어요! = 1';else if(g>1)extra=`<div class="simp">${pz({d:D,parts:[[sum,COL[0]]],size:110})}<span>=</span>${pz({d:D/g,parts:[[sum/g,COL[0]]],size:110})}</div>같은 크기를 더 큰 조각으로: ${frac(sum,D)} = ${frac(sum/g,D/g)} (더 간단한 모양)`;
     msg(`정답! ${frac(n1,D)} + ${frac(n2,D)} = ${frac(sum,D)}`,'good');
     roundDone(stars,`<span class="eqline">${frac(a,b,'big')} + ${frac(c,d,'big')} = ${frac(sum,D,'big')}</span>${extra}`);};
    if(!S.set.input){await sleep(700);finish();return;}
@@ -382,7 +425,159 @@ const OVER={id:'over',emoji:'🍫',title:'한 판 넘기기',desc:'조각을 모
     if(v[0]===W&&v[1]===n){finish(tries===0?3:tries===1?2:1);}
     else{tries++;snd.bad();A.shake();A.clear();msg(v[0]!==W?`완성된 초콜릿 판(위 선반)을 세어 봐!`:`틀에 남아 있는 조각을 세어 봐!`,'bad');}},[W,b-1]);}}
 };
-const GAMES=[EQ,ADD,OVER];
+/* ---------- GAME 4: 피자 자르기 (직접 선 긋기·지우기 → 동치분수·약분) ---------- */
+const UNIT=24;
+function cutSVG(o){const r=44,c=50;const pt=(t,rr=r)=>{const a=t*2*Math.PI;return[c+rr*Math.sin(a),c-rr*Math.cos(a)];};
+ const wedge=(t0,t1,fill)=>{const[x0,y0]=pt(t0),[x1,y1]=pt(t1);const big=(t1-t0)>0.5?1:0;return`<path d="M${c} ${c} L${x0.toFixed(2)} ${y0.toFixed(2)} A${r} ${r} 0 ${big} 1 ${x1.toFixed(2)} ${y1.toFixed(2)} Z" fill="${fill}"/>`;};
+ let s=`<svg viewBox="0 0 100 100" class="pz" id="cutSvg"><circle cx="${c}" cy="${c}" r="${r+5}" fill="transparent"/><circle cx="${c}" cy="${c}" r="${r}" fill="#fde9bd" stroke="#c99a4e" stroke-width="2.5"/>`;
+ s+=wedge(0,o.a/o.b,COL[0]);
+ for(let i=0;i<UNIT;i++){const[x,y]=pt(i/UNIT,r+3);s+=`<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="1.1" fill="#c9a86a"/>`;}
+ for(const p of o.cuts){const fx=o.fixed.has(p);const[x,y]=pt(p/UNIT,fx?r:r+3);s+=`<line x1="${c}" y1="${c}" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}" stroke="${fx?'#3b2a1a':o.equal?'#2e7d32':'#5d4037'}" stroke-width="${fx?3.2:2.2}" stroke-linecap="round"/>`;}
+ s+=`<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="#c99a4e" stroke-width="2.5"/></svg>`;return s;}
+const CUT={id:'cut',emoji:'✂️',title:'피자 자르기',desc:'피자에 직접 선을 긋거나 지워서 같은 크기 분수를 만들어요. 4/8 = 1/2!',
+ gen(){const fine=[[1,2],[1,3],[2,3],[1,4],[3,4],[1,6],[5,6]];
+  const mk=(mode,kmin,kmax)=>{let t,k,g=0;do{t=pick(fine);const ks=[];for(let kk=kmin;kk<=kmax;kk++)if(t[1]*kk<=12&&UNIT%(t[1]*kk)===0)ks.push(kk);k=ks.length?pick(ks):null;}while(!k&&g++<60);if(!k){t=[1,2];k=2;}return{mode,a:t[0],b:t[1],k};};
+  return[mk('fine',2,3),mk('fine',2,4),mk('coarse',2,2),mk('coarse',2,3),mk('coarse',3,4)];},
+ render(p,el){const{mode,a,b,k}=p;const D=b*k;const fixed=new Set([0,a*UNIT/b]);const cuts=new Set(fixed);
+  const start=mode==='coarse'?D:b;for(let i=0;i<start;i++)cuts.add(i*UNIT/start);
+  const tD=mode==='fine'?D:b;const target=new Set();for(let i=0;i<tD;i++)target.add(i*UNIT/tD);
+  let wrong=0,done=false;
+  el.innerHTML=`<div class="msg" id="msg">${mode==='fine'?`피자를 <b>똑같은 크기 ${D}조각</b>으로 잘라서 ${frac(a,b)} 와 같은 분수를 만들어 봐. 피자 가장자리를 누르면 선이 그어져요.`:`선을 지워서 <b>가장 큰 조각</b>으로 만들어 봐. 조각은 모두 같은 크기여야 해요. 선 끝을 누르면 지워져요.`}</div>
+  <div class="cutwrap"><div class="pzcard" id="cutPz"></div><div class="cutside"><div class="cutgoal">${mode==='fine'?`목표: ${frac(a,b)} = ${frac('?',D)}`:`시작: ${frac(a*k,D)} → 더 간단히?`}</div><div class="cutinfo" id="info"></div><div class="lab" id="cutLab"></div></div></div>`;
+  const msg=(h,cls='')=>{const m=$('#msg',el);m.className='msg '+cls;m.innerHTML=h;};
+  function draw(){const arr=[...cuts].sort((x,y)=>x-y);const n=arr.length;const equal=arr.every((v,i)=>v===i*UNIT/n);
+   $('#cutPz',el).innerHTML=cutSVG({a,b,cuts:arr,fixed,equal});
+   $('#info',el).innerHTML=`조각 <b>${n}</b>개<br>${equal?'<span style="color:var(--ok)">모두 같은 크기 ✓</span>':'<span style="color:var(--bad)">크기가 달라요 ✗</span>'}`;
+   $('#cutLab',el).innerHTML=equal?`${frac(a*n/b,n,'big')} <span style="font-size:30px">=</span> ${frac(a,b,'big')}`:`<span class="frac big dim"><span class="num">?</span><span class="den">?</span></span>`;
+   const svg=$('#cutSvg',el);svg.onpointerdown=e=>{if(done)return;e.preventDefault();const rc=svg.getBoundingClientRect();const x=e.clientX-rc.left-rc.width/2,y=e.clientY-rc.top-rc.height/2;if(Math.hypot(x,y)>rc.width*.6)return;
+    let t=Math.atan2(x,-y)/(2*Math.PI);if(t<0)t+=1;const q=Math.round(t*UNIT)%UNIT;
+    if(fixed.has(q)){const pc=$('#cutPz',el);pc.classList.remove('wob');void pc.offsetWidth;pc.classList.add('wob');msg('굵은 선은 색칠한 부분의 경계라서 지울 수 없어요','bad');return;}
+    if(cuts.has(q)){cuts.delete(q);if(target.has(q))wrong++;snd.tap();}else{cuts.add(q);if(!target.has(q))wrong++;snd.cut();}
+    const st=draw();check(st.n,st.equal);};
+   return{n,equal};}
+  function check(n,equal){if(!equal){if(mode==='fine')msg(`조각 크기가 달라요. 똑같은 크기 <b>${D}조각</b>이 되게 해 봐`);else msg('조각 크기가 달라졌어요. 모두 같은 크기가 되게 지워 봐');return;}
+   if(n===tD){done=true;snd.ok();const stars=wrong===0?3:wrong<=2?2:1;
+    msg(mode==='fine'?`딱 맞아! ${frac(a*k,D)} = ${frac(a,b)}`:`이게 제일 간단한 모양! ${frac(a*k,D)} = ${frac(a,b)}`,'good');
+    const before=mode==='fine'?[a,b]:[a*k,D],after=mode==='fine'?[a*k,D]:[a,b];
+    setTimeout(()=>roundDone(stars,`<div class="simp">${pz({d:before[1],parts:[[before[0],COL[0]]],size:120})}<span>=</span>${pz({d:after[1],parts:[[after[0],COL[0]]],size:120})}</div>${frac(before[0],before[1],'big')} = ${frac(after[0],after[1],'big')}<br><span style="font-size:19px;color:var(--sub)">${mode==='fine'?`조각을 ${k}배 잘게 잘라도 색칠한 크기는 그대로예요`:`같은 크기를 더 큰 조각으로 쓰면 더 간단해요 (위아래 ÷${k})`}</span>`),900);return;}
+   if(mode==='fine')msg(`${n}조각도 모두 같은 크기네! 이번엔 <b>${D}조각</b>으로 해 보자 (${frac(a*n/b,n)} = ${frac(a,b)})`,'good');
+   else msg(`${frac(a*n/b,n)} 도 같은 크기! 그런데 <b>더 큰 조각</b>으로 할 수 있을까?`,'good');}
+  draw();}
+};
+
+/* ---------- GAME 5: 누가 더 커 (크기 비교·순서) ---------- */
+const CMP={id:'cmp',emoji:'⚖️',title:'누가 더 커',desc:'분수의 크기를 비교하고 큰 순서대로 골라요',
+ gen(){const maxD=Math.max(S.set.maxD,6);const val=f=>f[0]/f[1];const probs=[];
+  for(let r=0;r<5;r++){const k=(r===2||r===4)?3:2;const fs=[];let g=0;while(fs.length<k&&g++<300){const d=rnd(2,maxD),n=rnd(1,d-1);const f=[n,d];if(fs.some(x=>Math.abs(val(x)-val(f))<0.09||x[1]===d))continue;fs.push(f);}
+   while(fs.length<k)fs.push([1,fs.length+5]);probs.push({fs,pics:r<3,k});}return probs;},
+ render(p,el){const{fs,pics,k}=p;const val=f=>f[0]/f[1];const order=fs.map((f,i)=>i).sort((i,j)=>val(fs[j])-val(fs[i]));let next=0,tries=0;
+  el.innerHTML=`<div class="msg" id="msg">${k===2?'어느 쪽이 더 <b>커</b>? 큰 쪽을 눌러 봐':'<b>큰 것부터</b> 차례로 눌러 봐'}${pics?'':' (머릿속으로 피자를 떠올려 봐)'}</div>
+  <div class="cmpwrap">${fs.map((f,i)=>`<button class="cmp" data-i="${i}">${pics?pz({d:f[1],parts:[[f[0],COL[i]]]}):''}<div class="${pics?'lab':'nolab'}">${frac(f[0],f[1],pics?'':'huge')}</div></button>`).join('')}</div>`;
+  $$('.cmp',el).forEach(btn=>btn.onclick=async()=>{const i=+btn.dataset.i;if(btn.classList.contains('pick'))return;
+   if(i===order[next]){snd.pop();btn.classList.add('pick');btn.insertAdjacentHTML('afterbegin',`<span class="rank">${k===2?'더 커!':next+1+'등'}</span>`);next++;
+    if(next>=(k===2?1:k)){const stars=tries===0?3:tries===1?2:1;await sleep(700);
+     roundDone(stars,`<div class="simp">${order.map(j=>pz({d:fs[j][1],parts:[[fs[j][0],COL[j]]],size:100})).join('<span>></span>')}</div>${order.map(j=>frac(fs[j][0],fs[j][1])).join(' <span style="font-size:30px">></span> ')}`);}}
+   else{tries++;snd.bad();btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');const f=fs[i],g=fs[order[next]];
+    $('#msg',el).innerHTML=`음, ${frac(f[0],f[1])} 보다 더 큰 게 있어요. ${pics?'색칠한 넓이를 비교해 봐':f[1]>g[1]?'분모가 크면 조각이 더 작아요':'조각 수와 크기를 같이 생각해 봐'}`;}});}
+};
+
+/* ---------- GAME 6: 개구리 점프 (수직선) ---------- */
+const JUMP={id:'jump',emoji:'🐸',title:'개구리 점프',desc:'수직선 위에서 같은 보폭으로 뛰어 딱 맞게 파리를 잡아요',
+ gen(){const ds=[2,3,4,5,6,8].filter(d=>d<=Math.max(S.set.maxD,5));const probs=[];
+  for(let r=0;r<5;r++){let d,n,g=0;do{d=pick(ds);n=r<3?rnd(1,d-1):rnd(d+1,2*d-1);}while(gcd(n,d)!==1&&g++<80);
+   const others=shuffle(ds.filter(x=>x!==d)).slice(0,2);probs.push({d,n,opts:shuffle([d,...others]),mixed:r>=3});}return probs;},
+ render(p,el){const{d,n,opts,mixed}=p;let x=0,pos=0,tries=0,done=false;const T=n/d;
+  const tgt=mixed?`<span class="mixed">${Math.floor(n/d)}${frac(n%d,d)}</span>`:frac(n,d);
+  el.innerHTML=`<div class="msg" id="msg">파리는 <b>${mixed?Math.floor(n/d)+'과 '+(n%d)+'/'+d:n+'/'+d}</b> 자리에 있어요. 어떤 보폭으로 뛰면 <b>딱</b> 잡을 수 있을까?</div>
+  <div class="nl" id="nl"></div>
+  <div class="chips" id="chips">${opts.map(o=>`<button class="chip" data-d="${o}">보폭 ${frac(1,o)}</button>`).join('')}</div>
+  <div class="center" style="margin-top:6px"><button class="btn" id="jumpBtn" disabled>점프! 🐸</button><div class="pill" id="cnt" style="font-size:22px">0번 뛰었어</div></div>`;
+  const msg=(h,cls='')=>{const m=$('#msg',el);m.className='msg '+cls;m.innerHTML=h;};
+  const X=t=>4+t*46;// percent for value t in [0,2]
+  function drawLine(){let s=`<svg viewBox="0 0 100 40" preserveAspectRatio="none"><line x1="2" y1="30" x2="98" y2="30" stroke="#8d5a1e" stroke-width="3" vector-effect="non-scaling-stroke"/>`;
+   if(x){for(let i=0;i<=2*x;i++){const px=X(i/x);s+=`<line x1="${px}" y1="26" x2="${px}" y2="34" stroke="#8d5a1e" stroke-width="2" vector-effect="non-scaling-stroke"/>`;}}
+   for(let i=0;i<=2;i++){const px=X(i);s+=`<line x1="${px}" y1="22" x2="${px}" y2="38" stroke="#3b2a1a" stroke-width="3" vector-effect="non-scaling-stroke"/>`;}
+   s+='</svg>';
+   const labels=[0,1,2].map(i=>`<div style="position:absolute;left:${X(i)}%;bottom:-2px;transform:translateX(-50%);font-size:24px">${i}</div>`).join('');
+   const ticks=x?Array.from({length:2*x+1},(_,i)=>i%x?`<div style="position:absolute;left:${X(i/x)}%;bottom:6px;transform:translateX(-50%);font-size:12px;color:var(--sub)">${frac(i%x,x)}</div>`:'').join(''):'';
+   $('#nl',el).innerHTML=s+labels+(x<=8?ticks:'')+`<div class="fly" style="left:${X(T)}%">🪰<div style="font-size:16px;text-align:center">${tgt}</div></div><div class="frog" id="frog" style="left:${X(pos)}%">🐸</div>`;}
+  drawLine();
+  $$('.chip',el).forEach(ch=>ch.onclick=()=>{if(done||pos>0)return;x=+ch.dataset.d;$$('.chip',el).forEach(c=>c.classList.toggle('on',c===ch));$('#jumpBtn',el).disabled=false;snd.tap();drawLine();msg(`보폭 ${frac(1,x)} 로 뛰어 보자. 몇 번 뛰면 될까?`);});
+  $('#jumpBtn',el).onclick=async()=>{if(done||!x)return;const btn=$('#jumpBtn',el);btn.disabled=true;pos+=1/x;const cnt=Math.round(pos*x);$('#cnt',el).innerHTML=`${cnt}번 뛰었어 = ${frac(cnt,x)}`;
+   const fr=$('#frog',el);fr.classList.add('hop');fr.style.left=X(pos)+'%';snd.pop();await sleep(380);fr.classList.remove('hop');
+   if(Math.abs(pos-T)<1e-9){done=true;snd.ok();msg(`잡았다! ${frac(1,x)} 씩 ${cnt}번 = ${frac(cnt,x)}`,'good');const stars=Math.max(1,(x===d?3:2)-tries);
+    await sleep(700);roundDone(stars,`${frac(1,x,'big')} × ${cnt}번 = ${frac(cnt,x,'big')}${mixed?` = <span class="mixed" style="font-size:36px">${Math.floor(n/d)}${frac(n%d,d,'big')}</span>`:''}${x!==d?`<br><span style="font-size:19px;color:var(--sub)">보폭 ${frac(1,d)} 로 뛰면 ${n}번이면 돼요</span>`:''}`);return;}
+   if(pos>T+1e-9){tries++;snd.bad();msg(`풍덩! 파리를 지나쳤어요. ${n*x%d!==0?`보폭 ${frac(1,x)} 로는 딱 맞게 못 가요. 다른 보폭을 골라 봐`:'처음부터 다시!'}`,'bad');await sleep(900);
+    pos=0;if(n*x%d!==0){x=0;$$('.chip',el).forEach(c=>c.classList.remove('on'));}$('#cnt',el).textContent='0번 뛰었어';drawLine();btn.disabled=!x;return;}
+   btn.disabled=false;};}
+};
+
+/* ---------- GAME 7: 초콜릿 나눠 주기 (뺄셈·받아내림) ---------- */
+const SUB={id:'sub',emoji:'🎁',title:'초콜릿 나눠 주기',desc:'친구에게 초콜릿을 나눠 주고 남은 양을 세어요. 모자라면 한 판을 쪼개요',
+ gen(){const maxD=Math.max(S.set.maxD,4);const probs=[];for(let r=0;r<5;r++){const b=rnd(3,maxD);const W=r<3?1:rnd(1,2);let n,c;if(r<2){n=rnd(2,b-1);c=rnd(1,n);}else{n=rnd(0,b-2);c=rnd(n+1,b-1);}probs.push({b,W,n,c});}return probs;},
+ render(p,el){const{b,W,n,c}=p;let given=0,bars=W,pieces=n,tries=0,busy=false,done=false;const total=W*b+n-c,RW=Math.floor(total/b),Rn=total%b;
+  el.innerHTML=`<div class="eqline"><span class="mixed" style="color:var(--a)">${W}${n?frac(n,b):''}</span><span class="op">−</span><span style="color:var(--c)">${frac(c,b)}</span><span class="op">=</span><span style="color:#b9a98f">?</span></div>
+  <div class="msg" id="msg">친구가 ${frac(c,b)} 만큼 달래요. 조각을 눌러서 주세요. ${c>n?'조각이 모자라면 <b>한 판을 눌러 쪼개</b> 봐!':''}</div>
+  <div class="friend"><span style="font-size:40px">🧒</span><span>${frac(c,b)} 주세요!</span><div class="slots" id="slots">${Array.from({length:c},()=>`<div class="slot"></div>`).join('')}</div></div>
+  <div class="bars" id="bars">${Array.from({length:W},()=>`<button class="bar" style="--col:var(--a)">${Array.from({length:b},()=>'<i></i>').join('')}</button>`).join('')}</div>
+  <div class="plate" style="margin:0 auto"><div class="ph"><span>조각</span></div><div class="blocks" id="blocks">${Array.from({length:n},()=>`<button class="blk" style="--col:var(--a)"></button>`).join('')}</div></div><div id="ans"></div>`;
+  const msg=(h,cls='')=>{const m=$('#msg',el);m.className='msg '+cls;m.innerHTML=h;};
+  const bindBlk=bk=>bk.onclick=async()=>{if(busy||done)return;if(given>=c){msg('고마워, 이제 충분해! 남은 양은 얼마일까?','good');return;}busy=true;
+   const slot=$$('#slots .slot',el)[given];const r0=bk.getBoundingClientRect(),r1=slot.getBoundingClientRect();bk.classList.add('gone');
+   const fly=document.createElement('div');fly.className='flying';fly.style.cssText=`left:${r0.left}px;top:${r0.top}px;width:${r0.width}px;height:${r0.height}px;background:var(--a)`;document.body.appendChild(fly);snd.tap();
+   await fly.animate([{transform:'translate(0,0)'},{transform:`translate(${r1.left+r1.width/2-r0.left-r0.width/2}px,${r1.top+r1.height/2-r0.top-r0.height/2}px) scale(${r1.width/r0.width},${r1.height/r0.height})`}],{duration:380,easing:'cubic-bezier(.3,.8,.4,1)'}).finished;
+   fly.remove();slot.classList.add('f');slot.style.setProperty('--col','var(--a)');given++;pieces--;bk.remove();busy=false;
+   if(given===c){snd.full();msg('고마워! 😊 그럼 초콜릿이 얼마나 남았을까?','good');await sleep(500);ask();}};
+  $$('.blk',el).forEach(bindBlk);
+  $$('.bar',el).forEach(bar=>bar.onclick=()=>{if(busy||done)return;if(given>=c)return;snd.cut();bar.remove();bars--;const bl=$('#blocks',el);
+   for(let i=0;i<b;i++){const bk=document.createElement('button');bk.className='blk';bk.style.setProperty('--col','var(--a)');bindBlk(bk);bl.appendChild(bk);}pieces+=b;
+   msg(`한 판을 ${b}조각으로 쪼갰어요! 이제 조각을 줄 수 있어요`);});
+  function ask(){const A=makeAnswer($('#ans',el),2,bx=>`<span class="mixed">${bx[0]}<span>판 과</span><span class="frac"><span class="num">${bx[1]}</span><span class="den">${b}</span></span><span>조각 남았어</span></span>`,v=>{
+    if(v[0]===RW&&v[1]===Rn){done=true;$('#ans',el).innerHTML='';const stars=tries===0?3:tries===1?2:1;
+     roundDone(stars,`<span class="eqline"><span class="mixed">${W}${n?frac(n,b,'big'):''}</span> − ${frac(c,b,'big')} = <span class="mixed" style="font-size:40px">${RW||''}${Rn?frac(Rn,b,'big'):RW?'':'0'}</span></span>${c>n?`<span style="font-size:19px;color:var(--sub)">조각이 모자라서 한 판(${b}/${b})을 쪼갰어요</span>`:''}`);}
+    else{tries++;snd.bad();A.shake();A.clear();msg(v[0]!==RW?'남은 <b>통째 판</b>이 몇 개인지 세어 봐':'남은 <b>조각</b>을 세어 봐','bad');}},[RW,b-1]);}}
+};
+
+/* ---------- GAME 8: 분수 탐정 (틀린 계산 찾기) ---------- */
+function mkDet(type,ok){const maxD=Math.max(S.set.maxD,6);let st,fix,ans,why,layout,check,pic='';
+ const F=(n,d)=>frac(n,d);
+ if(type===1){const b=rnd(3,maxD),a=rnd(1,b-2),c=rnd(1,b-1-a);const mkS=f=>`${F(a,b)} + ${F(c,b)} = ${f?F(a+c,b):F(a+c,2*b)}`;st=mkS(ok);fix=mkS(true);ans=[a+c,b];why='분모는 조각 크기라서 그대로! 조각 수(분자)만 더해요';
+  layout=bx=>`${F(a,b)} + ${F(c,b)} = <span class="frac big"><span class="num">${bx[0]}</span><span class="den">${bx[1]}</span></span>`;check=v=>v[0]*ans[1]===ans[0]*v[1];
+  pic=`<div class="simp">${pz({d:b,parts:[[a,COL[0]]],size:90})}<span>+</span>${pz({d:b,parts:[[c,COL[1]]],size:90})}<span>=</span>${pz({d:b,parts:[[a,COL[0]],[c,COL[1]]],size:90})}</div>`;}
+ else if(type===2){let b,d,a,c,L,g=0;do{b=rnd(2,6);d=rnd(2,6);a=rnd(1,b-1);c=rnd(1,d-1);L=lcm(b,d);}while((b===d||L>12||gcd(a,b)!==1||gcd(c,d)!==1||a*d+c*b>b*d)&&g++<300);
+  const sum=a*L/b+c*L/d;const mkS=f=>`${F(a,b)} + ${F(c,d)} = ${f?F(sum,L):F(a+c,b+d)}`;st=mkS(ok);fix=mkS(true);ans=[sum,L];why=`조각 크기가 다르면 먼저 ${L}등분으로 똑같이 자른 다음 더해요`;
+  layout=bx=>`${F(a,b)} + ${F(c,d)} = <span class="frac big"><span class="num">${bx[0]}</span><span class="den">${bx[1]}</span></span>`;check=v=>v[0]*ans[1]===ans[0]*v[1];
+  pic=`<div class="simp">${pz({d:b,parts:[[a,COL[0]]],cuts:L,size:90})}<span>+</span>${pz({d:d,parts:[[c,COL[1]]],cuts:L,size:90})}<span>=</span>${pz({d:L,parts:[[a*L/b,COL[0]],[c*L/d,COL[1]]],size:90})}</div>`;}
+ else if(type===3){const base=pick([[1,2],[1,3],[2,3],[1,4],[3,4]]);const k=rnd(2,3);const[a,b]=base;const wrongD=b+(Math.random()<.5?1:-1);
+  const mkS=f=>`${F(a*k,b*k)} 를 간단히 하면 ${f?F(a,b):F(a,wrongD)}`;st=mkS(ok);fix=mkS(true);ans=[a,b];why=`간단히 할 때는 위아래를 <b>같은 수(${k})</b>로 나눠요. 조각을 합쳐도 크기는 그대로!`;
+  layout=bx=>`${F(a*k,b*k)} = <span class="frac big"><span class="num">${bx[0]}</span><span class="den">${bx[1]}</span></span>`;check=v=>v[0]===a&&v[1]===b;
+  pic=`<div class="simp">${pz({d:b*k,parts:[[a*k,COL[0]]],size:100})}<span>=</span>${pz({d:b,parts:[[a,COL[0]]],size:100})}</div>`;}
+ else if(type===4){const base=pick([[1,2],[1,3],[2,3],[1,4],[3,4],[2,5]]);const k=rnd(2,3);const[a,b]=base;
+  const mkS=f=>`${F(a,b)} = ${f?F(a*k,b*k):F(a+k,b+k)}`;st=mkS(ok);fix=mkS(true);ans=[a*k,b*k];why=`같은 크기 분수를 만들 때는 위아래에 <b>같은 수(${k})</b>를 곱해요. 더하면 크기가 달라져요`;
+  layout=bx=>`${F(a,b)} = <span class="frac big"><span class="num">${bx[0]}</span><span class="den">${b*k}</span></span>`;check=v=>v[0]===a*k;
+  pic=`<div class="simp">${pz({d:b,parts:[[a,COL[0]]],size:100})}<span>=</span>${pz({d:b*k,parts:[[a*k,COL[0]]],size:100})}</div>`;}
+ else{const d=rnd(3,maxD);const n=rnd(d+1,2*d-1);const W=1,r=n-d;const wr=Math.random()<.5?[2,r]:[1,d-r];
+  const mkS=f=>`${F(n,d)} = <span class="mixed">${f?W:wr[0]}${F(f?r:wr[1],d)}</span>`;st=mkS(ok);fix=mkS(true);ans=[W,r];why=`${d}/${d} 가 한 판이에요. 한 판을 빼고 남은 조각을 세어요`;
+  layout=bx=>`${F(n,d)} = <span class="mixed">${bx[0]}<span class="frac big"><span class="num">${bx[1]}</span><span class="den">${d}</span></span></span>`;check=v=>v[0]===W&&v[1]===r;
+  pic=`<div class="simp">${pz({d:d,parts:[[d,COL[0]]],size:90})}<span>+</span>${pz({d:d,parts:[[r,COL[0]]],size:90})}</div>`;}
+ return{type,ok,st,fix,ans,why,layout,check,pic,nf:type===4?1:2};}
+const DET={id:'det',emoji:'🕵️',title:'분수 탐정',desc:'계산이 맞는지 틀린지 찾아내고 바로잡아요',
+ gen(){const types=shuffle([1,2,3,4,5]);let oks=shuffle([true,true,false,false,false]);return types.map((t,i)=>mkDet(t,oks[i]));},
+ render(p,el){let slips=0;
+  el.innerHTML=`<div class="msg" id="msg">이 계산, <b>맞을까 틀릴까</b>? 잘 살펴보고 골라 봐 🔍</div>
+  <div class="detcase"><div class="eqline">${p.st}</div><div class="judge" id="judge"><button class="btn yes" data-j="1">맞아 ✓</button><button class="btn no" data-j="0">틀려 ✗</button></div></div><div id="ans"></div>`;
+  const msg=(h,cls='')=>{const m=$('#msg',el);m.className='msg '+cls;m.innerHTML=h;};
+  $$('#judge button',el).forEach(b=>b.onclick=()=>{const j=b.dataset.j==='1';
+   if(j!==p.ok){slips++;snd.bad();b.classList.add('shake');msg(p.ok?'다시 잘 봐. 사실은 맞는 계산이에요!':'다시 잘 봐. 어딘가 이상하지 않아?','bad');return;}
+   snd.pop();$('#judge',el).innerHTML='';
+   if(p.ok){msg('맞아요, 정확한 계산이에요! 👍','good');setTimeout(()=>roundDone(Math.max(1,3-slips),`${p.pic}<div class="eqline" style="font-size:28px;margin-bottom:6px">${p.fix}</div><span style="font-size:20px;color:var(--sub)">${p.why}</span>`),700);return;}
+   msg('맞아, 틀린 계산이야! 🕵️ 그럼 <b>진짜 답</b>은?');
+   const A=makeAnswer($('#ans',el),p.nf,bx=>`<span class="eqline" style="font-size:30px">${p.layout(bx)}</span>`,v=>{
+    if(p.check(v)){$('#ans',el).innerHTML='';snd.ok();roundDone(Math.max(1,3-slips),`${p.pic}<div class="eqline" style="font-size:28px;margin-bottom:6px">${p.fix}</div><span style="font-size:20px;color:var(--sub)">${p.why}</span>`);}
+    else{slips++;snd.bad();A.shake();A.clear();msg(p.why,'bad');}});});}
+};
+const GAMES=[EQ,CUT,ADD,OVER,CMP,JUMP,SUB,DET];
+const NEWG=new Set(['cut','cmp','jump','sub','det']),HARD=new Set(['sub','det']);
 
 /* ---------- gacha ---------- */
 const STK=[
@@ -408,7 +603,7 @@ function renderAdult(){const el=$('#adultBody');if(!gateOk){const x=rnd(12,48),y
  <div class="set"><h4>소리</h4>${seg('sound',[true,false],v=>v===true?'켬':'끔')}</div>
  <div class="set"><h4>아이 이름</h4><input class="nm" id="nm" value="${S.set.name}" maxlength="6"></div>
  <div class="set"><h4>기록<small>별 ${S.stars} · 표 ${S.tickets} · 스티커 ${Object.keys(S.stickers).length}종</small></h4><button class="btn g sm" id="reset">모두 지우기</button></div>
- <div class="set" style="color:var(--sub);font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:500">같은 크기 찾기(동치분수) → 조각 맞추기(통분 덧셈, 공통분모를 손으로 찾기) → 한 판 넘기기(가분수·대분수) 순서로 하면 좋아요. 별 10개 = 뽑기 표 1장, 한 판 만점(15)이면 표 1장 보너스.</div>`;
+ <div class="set" style="color:var(--sub);font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:500">추천 순서: 같은 크기 찾기 → 피자 자르기(직접 선 긋기·지우기로 동치분수·약분) → 조각 맞추기(통분 덧셈) → 한 판 넘기기(대분수) → 누가 더 커(비교) → 개구리 점프(수직선) → 초콜릿 나눠 주기(뺄셈·받아내림) → 분수 탐정(틀린 계산 찾기). 별 10개 = 뽑기 표 1장, 한 판 만점(15)이면 표 1장 보너스.</div>`;
  $$('.seg button',el).forEach(b=>b.onclick=()=>{const k=b.dataset.key;let v=b.dataset.v;if(v==='true')v=true;else if(v==='false')v=false;else v=+v;S.set[k]=v;save();snd.tap();renderAdult();});
  $('#nm').onchange=e=>{S.set.name=e.target.value.trim()||'재윤';save();};
  let rc=0;$('#reset').onclick=()=>{rc++;if(rc<2){$('#reset').textContent='정말요? 한 번 더';return;}localStorage.removeItem(KEY);S=load();save();gateOk=false;renderAdult();};}
