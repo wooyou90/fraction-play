@@ -93,6 +93,11 @@ nav button.on{color:var(--acc)}
 .card.retry{background:#fff8e1;border-color:#ffb300}
 .statgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px 18px;width:100%}
 .strow{display:flex;justify-content:space-between;gap:10px;font-size:17px;padding:3px 0;border-bottom:1px dashed var(--line)}
+.pinwrap{display:flex;flex-direction:column;align-items:center;gap:18px;margin-top:24px}
+.pindots{display:flex;gap:12px}
+.pindots i{width:22px;height:22px;border-radius:50%;background:#eadbc0;display:block}
+.pindots i.f{background:var(--acc)}
+.np.pinpad{grid-template-columns:repeat(3,80px)}
 /* mascot */
 .mas{width:92px;height:92px;flex:none}
 .mas svg{width:100%;height:100%;overflow:visible}
@@ -805,8 +810,13 @@ $('#drawBtn').onclick=async()=>{if(S.tickets<1){snd.bad();const g=$('.gtop2');g.
 
 /* ---------- adult ---------- */
 let gateOk=false;
-function renderAdult(){const el=$('#adultBody');if(!gateOk){const x=rnd(12,48),y=rnd(13,47);el.innerHTML=`<div class="set"><h4>어른 확인<small>답을 눌러 주세요</small></h4></div><div class="msg" style="font-size:36px;margin:20px 0">${x} + ${y} = ?</div><div id="gate"></div>`;
-  const A=makeAnswer($('#gate'),1,bx=>`<span style="font-size:36px">${bx[0]}</span>`,v=>{if(v[0]===x+y){gateOk=true;snd.ok();renderAdult();}else{snd.bad();A.shake();A.clear();}});return;}
+const PIN='19900216';
+function renderAdult(){const el=$('#adultBody');if(!gateOk){let pin='';
+  el.innerHTML=`<div class="set"><h4>어른 확인<small>비밀번호 ${PIN.length}자리를 눌러 주세요</small></h4></div><div class="pinwrap"><div class="pindots" id="pindots"></div><div class="np pinpad">${[1,2,3,4,5,6,7,8,9,'⌫',0,'✓'].map(k=>`<button data-k="${k}" class="${k==='✓'?'ok':k==='⌫'?'del':''}">${k}</button>`).join('')}</div></div>`;
+  const draw=()=>{$('#pindots').innerHTML=Array.from({length:PIN.length},(_,i)=>`<i class="${i<pin.length?'f':''}"></i>`).join('');};draw();
+  $$('.pinpad button',el).forEach(b=>b.onclick=()=>{const k=b.dataset.k;snd.tap();
+   if(k==='⌫')pin=pin.slice(0,-1);else if(k==='✓'){if(pin===PIN){gateOk=true;snd.ok();renderAdult();return;}snd.bad();const w=$('.pinwrap',el);w.classList.remove('shake');void w.offsetWidth;w.classList.add('shake');pin='';}
+   else if(pin.length<PIN.length)pin+=k;draw();if(pin.length===PIN.length&&pin===PIN){gateOk=true;snd.ok();renderAdult();}});return;}
  const seg=(key,opts,fmt=v=>v)=>`<div class="seg">${opts.map(v=>`<button data-key="${key}" data-v="${v}" class="${String(S.set[key])===String(v)?'on':''}">${fmt(v)}</button>`).join('')}</div>`;
  el.innerHTML=`<div class="set"><h4>분모 범위<small>조각 맞추기·한 판 넘기기에서 쓰는 가장 큰 분모</small></h4>${seg('maxD',[6,8,10,12],v=>'~'+v)}</div>
  <div class="set"><h4>답 직접 입력<small>끄면 그림만 조작하고 답은 자동으로 보여 줘요</small></h4>${seg('input',[true,false],v=>v===true?'켬':'끔')}</div>
